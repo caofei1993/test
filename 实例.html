@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.0.0/vue.js"></script>
+    <style>
+        .chlid{padding:2px 5px;margin:0 5px;border:1px solid #000;}
+        .chlid.active{border:1px solid red;}
+    </style>
+</head>
+<body>
+<div id="app">
+<h1>筛选</h1>
+价格：<span v-for="item in tylist" class="chlid" :class="{active: price == item}" @click="selected(item)">
+         {{item.lable}}
+      </span>
+<ul>
+    <li v-for="(v,index) in listFilter">
+        {{index+":"+v.money}}
+    </li>
+</ul>
+</div>
+<script>
+
+    new Vue({
+        el:"#app",
+        data:{
+           list:[
+               {
+                   id:10,
+                   money:"A(10万)"
+               },
+               {
+                   id:20,
+                   money:"B(20万)"
+               },
+               {
+                   id:30,
+                   money:"C(30万)"
+               },
+               {
+                   id:5,
+                   money:"D(5万)"
+               },
+               {
+                   id:1,
+                   money:"E(1万)"
+               },
+               {
+                   id:15,
+                   money:"AB(15万)"
+               },
+               {
+                   id:22,
+                   money:"AC(22万)"
+               },
+               {
+                   id:50,
+                   money:"AD(50万)"
+               },
+               {
+                   id:120,
+                   money:"AE(120万)"
+               }
+           ],
+           tylist:[
+               {
+                   lable:"小于5万",
+                   value:"5"
+               },
+               {
+                   lable:"5万-10万",
+                   value:"5-10"
+               },
+               {
+                   lable:"10万-15万",
+                   value:"10-15"
+               },
+               {
+                   lable:"15万-20万",
+                   value:"15-20"
+               },
+               {
+                   lable:"20万-25万",
+                   value:"20-25"
+               },
+               {
+                   lable:"大于25",
+                   value:"25"
+               }
+           ],
+           price:""
+        },
+        methods:{
+            selected:function(a){
+                this.price = a;
+            }
+        },
+        computed:{
+            listFilter:function(){
+                var lister=[];
+                if(!this.price){
+                   lister =this.list
+                }else if(this.price.value =="5"){
+                   lister = this.list.filter(function(c){
+                       return c.id < 5
+                   })
+                }else if(this.price.value =="5-10"){
+                    lister =this.list.filter(function(c){
+                        return c.id >= 5 && c.id<10
+                    })
+                }else if(this.price.value =="10-15"){
+                    lister =this.list.filter(function(c){
+                        return c.id >= 10 && c.id<15
+                    })
+                }else if(this.price.value =="15-20"){
+                    lister =this.list.filter(function(c){
+                        return c.id >= 15 && c.id<20
+                    })
+                }else if(this.price.value =="20-25"){
+                    lister =this.list.filter(function(c){
+                        return c.id >= 20 && c.id<25
+                    })
+                }else if(this.price.value =="25"){
+                    lister =this.list.filter(function(c){
+                        return c.id >= 25
+                    })
+                }
+
+                return lister;
+            }
+
+        }
+
+    })
+</script>
+</body>
+</html>
